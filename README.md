@@ -8,4 +8,4 @@ MNIST handwritten digits recognition model made with PyTorch
 Physiochemical property prediction model (lipophilicity, logD at pH 7.4) made witch PyTorch
 - Architecture: multi-layer perceptron
 - Total parameters: 2,691,841
-- MSE: 0.556310
+- RMSE: 0.7552
