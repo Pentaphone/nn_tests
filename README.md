@@ -13,4 +13,4 @@ https://github.com/Pentaphone/nn_tests/tree/main/nn_test2
 Physiochemical property prediction model (lipophilicity, logD at pH 7.4) made witch PyTorch
 - Architecture: graph convolutional network
 - Total parameters: 34,177
-- RMSE: 0.828
+- RMSE: 0.687
