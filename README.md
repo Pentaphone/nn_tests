@@ -14,4 +14,4 @@ Physiochemical property prediction model (lipophilicity, logD at pH 7.4) made wi
 hyperparameter optimization with optuna
 - Architecture: graph convolutional network
 - Total parameters: 59,649
-- RMSE: 0.664
+- RMSE: 0.658
