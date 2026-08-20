@@ -11,7 +11,7 @@ MNIST handwritten digits recognition model made with PyTorch
 https://github.com/Pentaphone/nn_tests/tree/main/nn_test2
 
 Physiochemical property prediction model (lipophilicity, logD at pH 7.4) made witch PyTorch, <br>
-hyperparameter optimization with optuna
+hyperparameter optimization with Optuna
 - Architecture: graph convolutional network
 - Total parameters: 59,649
-- RMSE: 0.658
+- RMSE: 0.598
