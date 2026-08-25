@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<!-- IMPORTS -->
+<!-- chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- ONNX runtime web -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/onnxruntime-web/1.23.2/ort.min.js">
+</script>
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>MNIST Digit Recognition</title>
+  <link rel="icon" type="image/x-icon" href="icon.png">
+
+
+<!-- STYLE -->
+  <style>
+    body {
+      margin: 0;
+      padding: 30px;
+
+      background: #131313;
+      color: #eeeeee;
+
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      font-weight: normal;
+
+      margin: 10px 0 40px;
+    }
+
+    .container {
+      justify-content: center;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .drawing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #canvas {
+      border: 2px solid gray;
+      background: black;
+    }
+
+    #clear {
+      background: #252525;
+      color: #eeeeee;
+      border: 1px solid #555;
+      border-radius: 5px;
+
+      margin-top: 10px;
+      padding: 5px 25px;
+      font-size: 16px;
+
+      cursor: pointer;
+    }
+    #clear:hover {
+      background: #333;
+    }
+
+    .chart {
+      width: 380px;
+      height: 420px;
+      color: #ffffff;
+    }
+  </style>
+
+
+</head>
+<body>
+<h1>MNIST Handwritten Digits Recognition</h1>
+
+<div class="container">
+
+  <div class="drawing">
+    <canvas
+      id="canvas"
+      width="280"
+      height="280">
+    </canvas>
+    <button id="clear">Clear</button>
+  </div>
+
+  <div class="chart">
+    <canvas id="chart"></canvas>
+  </div>
+
+</div>
+
+  <script src="script.js"></script>
+
+</body>
+
+
+</html>
