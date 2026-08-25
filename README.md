@@ -6,6 +6,9 @@ MNIST handwritten digits recognition model made with PyTorch
 - Total parameters: 421,642
 - Accuracy: 95.3%
 
+To try own handwritten digit recognition, download 'interactive_canvas', go to 'interactive_canvas' directory and start localhost.
+To start localhost, type: `python -m http.server 8000`. Open site in browser under `http://localhost:8000/`.
+
 
 ### nn_test2
 https://github.com/Pentaphone/nn_tests/tree/main/nn_test2
