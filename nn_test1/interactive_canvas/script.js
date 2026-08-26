@@ -13,7 +13,7 @@ console.log(Chart.version);
 
 
 // DRAWING SETTINGS
-ctx.lineWidth = 15;
+ctx.lineWidth = 20;
 ctx.lineCap = "round";
 ctx.lineJoin = "round";
 ctx.strokeStyle = "white";
@@ -65,24 +65,102 @@ clearButton.addEventListener("click", () => {
 
 
 // IMAGE PROCESSING
+function getBoundingBox(imageData, threshold=10) {
+  const data = imageData.data;
+  const width = imageData.width;
+  const height = imageData.height;
+
+  let minX = width;
+  let minY = height;
+  let maxX = 0;
+  let maxY = 0;
+
+  let found = false;
+
+  for (let y=0; y < height; y++) {
+    for (let x=0; x < width; x++) {
+
+      const i = (y*width + x) * 4;  // red channel
+      const value = data[i];
+
+      if (value > threshold) {
+        found = true;
+
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+      }
+    }
+  }
+
+  if (!found) {return null}
+
+  return {
+      x: minX,
+      y: minY,
+      width: maxX - minX + 1,
+      height: maxY - minY + 1
+  };
+}
+
 function downsample(canvas) {
+  const canvasCtx = canvas.getContext("2d");
+  const imageData = canvasCtx.getImageData(0, 0, canvas.width, canvas.height);
+  const boundingBox = getBoundingBox(imageData);
+
+  if (boundingBox === null) {
+    return new ImageData(28, 28) }
+
+  // intermediate digit canvas (20x20)
+  const digitCanvas = document.createElement("canvas");
+  digitCanvas.width = 20;
+  digitCanvas.height = 20;
+  const digitCtx = digitCanvas.getContext("2d");
+
+  // preserve aspect ratio
+  const scaleFactor = Math.min(20 / boundingBox.width, 20 / boundingBox.height);
+  const destinWidth = boundingBox.width * scaleFactor;
+  const destinHeight = boundingBox.height * scaleFactor;
+
+  const destinX = (20 - destinWidth) / 2;
+  const destinY = (20 - destinHeight) / 2;
+
+  digitCtx.drawImage(
+    canvas,  //source canvas
+
+    // pos and size on source canvas
+    boundingBox.x,
+    boundingBox.y,
+    boundingBox.width, 
+    boundingBox.height,
+
+    // pos and size on destination canvas
+    destinX,
+    destinY,
+    destinWidth,
+    destinHeight
+  );
+
+  // final canvas (28x28, like MNIST images)
   const smallCanvas = document.createElement("canvas");
   smallCanvas.width = 28;
   smallCanvas.height = 28;
   const smallCanvasCtx = smallCanvas.getContext("2d");
 
-  smallCanvasCtx.drawImage(canvas, 0, 0, 28, 28);
+  smallCanvasCtx.drawImage(digitCanvas, 4, 4);
 
-  const imageData = smallCanvasCtx.getImageData(0, 0, 28, 28);
-  return imageData
+  const smallImageData = smallCanvasCtx.getImageData(0, 0, 28, 28);
+  return smallImageData
 }
 
 function imageToTensor(imageData) {
+
   const imageVec = new Float32Array(28*28);
   for (let i=0; i < 28*28; i++) {
 
     // RGBA to grayscale, use first channel (red)
-    imageVec[i] = imageData.data[i * 4] / 255;
+    imageVec[i] = imageData.data[i*4] / 255;
   }
   const imageTensor = new ort.Tensor("float32", imageVec, [1, 1, 28, 28]);
   return imageTensor
